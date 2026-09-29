@@ -3,33 +3,174 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Verity holy sigam gng</title>
+<title>Verity — install (A: panel)</title>
 <style>
-body{font:16px/1.7 system-ui,sans-serif;max-width:460px;margin:70px auto;padding:0 24px}
-a{color:#0a58ca}
-.d{display:inline-block;padding:10px 18px;border:1px solid #bbb;border-radius:6px;color:#000;text-decoration:none}
-h2{font-size:17px;margin:38px 0 6px}
-p{margin:6px 0}
-small{color:#777}
+  /* DIRECTION A — "panel"
+     Same visual language as the Verity overlay itself: near-black, gold accent,
+     1px borders, pill buttons. The site should feel like part of the tool. */
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0b0b0c; --panel:#111112; --panel2:#161617; --line:#2a2a2a; --line2:#1d1d1d;
+    --fg:#f2f2f2; --mid:#b8b8b8; --dim:#7a7a7a; --gold:#e0b64a; --red:#e06c6c;
+    --mono:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  }
+  /* fits a laptop viewport without scrolling: the whole page is short, so
+     everything is tightened rather than hidden */
+  /* centre the whole page in the viewport, not just horizontally: body is a
+     flex column and the wrapper is the single centred child */
+  body{background:var(--bg);color:var(--fg);font:14px/1.5 Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+       -webkit-font-smoothing:antialiased;min-height:100vh;padding:clamp(16px,3vh,36px) 20px;
+       display:flex;align-items:center;justify-content:center}
+  .wrap{width:100%;max-width:900px;margin:auto;display:flex;flex-direction:column;
+        gap:clamp(12px,2.2vh,20px)}
+
+  header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .mark{font-size:clamp(24px,3.4vh,30px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+  .mark em{font-style:normal;color:var(--gold)}
+  .tag{color:var(--dim);font-size:13px}
+
+  .status{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;margin-left:auto;
+          border:1px solid var(--line2);border-radius:999px;font:11px/1 var(--mono);color:var(--mid)}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(224,182,74,.6)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vh,16px)}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+        padding:clamp(14px,2.2vh,20px);display:flex;flex-direction:column;gap:10px}
+  .card h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .card p{font-size:13px;color:var(--mid);line-height:1.5}
+
+  ol{list-style:none;counter-reset:s;display:grid;gap:7px}
+  ol li{counter-increment:s;position:relative;padding-left:24px;font-size:13px;color:var(--mid)}
+  ol li::before{content:counter(s);position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:5px;
+               background:var(--panel2);border:1px solid var(--line);color:var(--gold);
+               font:10px/15px var(--mono);text-align:center}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;
+       font-size:13px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+       background:var(--gold);color:#151005;border:1px solid var(--gold);transition:background .12s}
+  .btn:hover{background:#f0cd6a;border-color:#f0cd6a}
+  .btn.ghost{background:transparent;color:var(--mid);border-color:var(--line)}
+  .btn.ghost:hover{color:var(--fg);border-color:#3a3a3a;background:transparent}
+  .drag{cursor:grab;user-select:none;-webkit-user-drag:none}
+
+  .note{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold);
+        border-radius:12px;padding:clamp(12px,2vh,18px) clamp(14px,2.2vh,20px);display:grid;gap:6px}
+  .note h3{font-size:13.5px;font-weight:600;color:var(--gold)}
+  .note p{font-size:13px;color:var(--mid);line-height:1.5}
+
+  /* extension store links: deliberately quiet, so the gold CTA stays the
+     only thing that looks like a button */
+  .stores{display:flex;flex-wrap:wrap;gap:14px}
+  .stores a{
+    color:var(--dim);font-size:12.5px;text-decoration:none;padding-bottom:1px;
+    border-bottom:1px solid var(--line);transition:color .12s,border-color .12s
+  }
+  .stores a:hover{color:var(--gold);border-color:var(--gold)}
+
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:2px}
+  .row .btn{flex:0 0 auto}
+  .row small{color:var(--dim);font-size:12.5px}
+  footer{color:var(--dim);font-size:12.5px}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<h1>Verity holy sigam gng</h1>
-<p><small>log into education perfect first. pick one method to load the script, either tampermonkey or bookmarklet.</small></p>
+  <header>
+    <div class="mark">Verity<em>.</em></div>
+    <div class="tag">load the current build</div>
+      <div class="status"><span class="dot"></span>2.6.2</div>
+  </header>
 
-<h2>bookmarklet</h2>
-<p><small>show your bookmarks bar, then drag this onto it. click it on ep to load.</small></p>
-<p><a class="d" href="javascript:(function(){fetch('https://raw.githubusercontent.com/lolcaken/verity-loader/main/grain-verity.js?m='+Math.random()).then(function(r){return r.text()}).then(function(t){(0,eval)(t)})})()">drag me</a></p>
-<p><small>can't drag? right-click it, then bookmark this link.</small></p>
+  <div class="grid">
 
-<h2>tampermonkey</h2>
-<p><small>install for your browser, then install the loader. it updates itself and starts on its own.</small></p>
-<p><small><a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">chrome</a> &middot; <a href="https://addons.mozilla.org/firefox/addon/tampermonkey/" target="_blank" rel="noopener">firefox</a> &middot; <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaooobgolffmhimcgocgnhpbn" target="_blank" rel="noopener">edge</a> &middot; <a href="https://addons.daum.net/ADDON/2721" target="_blank" rel="noopener">brave</a></small></p>
-<p><a href="https://raw.githubusercontent.com/lolcaken/verity-loader/main/verity-loader.user.js">install the loader</a></p>
+    <section class="card">
+      <div class="top">
+        <h2>Bookmarklet</h2>
+      </div>
+      <p>Nothing to install. Add it to your bookmarks, then click it while you&rsquo;re on Education&nbsp;Perfect.</p>
+      <ol>
+        <li>Show your bookmarks bar &mdash; <code>Ctrl+Shift+B</code> / <code>Cmd+Shift+B</code></li>
+        <li>Drag the button onto it. If your browser won&rsquo;t let you drag it, hit <b>copy</b> and paste the code into any new bookmark&rsquo;s URL field.</li>
+        <li>Open EP, log in, click the bookmark</li>
+      </ol>
+      <div class="row">
+        <a class="btn drag" id="bm" href="javascript:(function(){fetch('https://raw.githubusercontent.com/lolcaken/verity-loader/main/grain-verity.js?m='+Math.random()).then(function(r){return r.text()}).then(function(t){(0,eval)(t)})})()">drag me</a>
+        <button class="btn ghost" id="bmcopy" type="button">copy the code</button>
+        <small id="bmdone"></small>
+      </div>
+    </section>
 
-<hr>
-<p><small>if nothing shows up, the tool is switched off, or you aren't logged in.</small></p>
+    <section class="card">
+      <div class="top">
+        <h2>Tampermonkey</h2>
+      </div>
+      <p>Install once and it runs by itself on every page load.</p>
+      <ol>
+        <li>Install the extension for your browser</li>
+        <li>Open the loader link and confirm the install</li>
+        <li>Open EP &mdash; it&rsquo;s already running</li>
+      </ol>
+      <div class="stores">
+        <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">chrome</a>
+        <a href="https://addons.mozilla.org/firefox/addon/tampermonkey/" target="_blank" rel="noopener">firefox</a>
+        <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaooobgolffmhimcgocgnhpbn" target="_blank" rel="noopener">edge</a>
+      </div>
+      <div class="row">
+        <a class="btn" href="https://raw.githubusercontent.com/lolcaken/verity-loader/main/verity-loader.user.js">install the loader</a>
+      </div>
+    </section>
 
+  </div>
+
+  <div class="note">
+    <h3>PLEASE dont COPY the BUILD FILE (aka the fetchlink) 🙏🙏</h3>
+    <p>A copy is a frozen snapshot. No updates, no fixes.
+       Installing from here always pulls the current build.</p>
+  </div>
+
+  <footer>
+    <p>Nothing appears? The tool may be switched off, or you&rsquo;re not logged into EP yet.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Dragging a javascript: link is blocked on some browsers, so "copy the code"
+  // grabs the exact bookmarklet URL for pasting into a bookmark you make yourself.
+  (function () {
+    var bm = document.getElementById('bm');
+    var btn = document.getElementById('bmcopy');
+    var done = document.getElementById('bmdone');
+    if (!bm || !btn) return;
+    btn.addEventListener('click', function () {
+      var text = bm.getAttribute('href');
+      var ok = function () {
+        btn.textContent = 'copied';
+        done.textContent = 'now make a bookmark and paste it into the URL field';
+        setTimeout(function () { btn.textContent = 'copy the code'; }, 1600);
+      };
+      var fail = function () {
+        done.textContent = 'copy failed — select the drag button and copy its address';
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok).catch(fail);
+      } else {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.cssText = 'position:fixed;left:-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          ok();
+        } catch (e) { fail(); }
+      }
+    });
+  })();
+</script>
 </body>
 </html>
