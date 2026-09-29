@@ -1,11 +1,11 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Verity — install (A: panel)</title>
+<title>Verity â€” install (A: panel)</title>
 <style>
-  /* DIRECTION A — "panel"
+  /* DIRECTION A â€” "panel"
      Same visual language as the Verity overlay itself: near-black, gold accent,
      1px borders, pill buttons. The site should feel like part of the tool. */
   *{box-sizing:border-box;margin:0;padding:0}
@@ -81,7 +81,7 @@
   <header>
     <div class="mark">Verity<em>.</em></div>
     <div class="tag">load the current build</div>
-      <div class="status"><span class="dot"></span>2.6.3</div>
+      <div class="status"><span class="dot"></span>2.6.4</div>
   </header>
 
   <div class="grid">
@@ -126,7 +126,7 @@
   </div>
 
   <div class="note">
-    <h3>PLEASE dont COPY the BUILD FILE (aka the fetchlink) 🙏🙏</h3>
+    <h3>PLEASE dont COPY the BUILD FILE (aka the fetchlink) ðŸ™ðŸ™</h3>
     <p>A copy is a frozen snapshot. No updates, no fixes.
        Installing from here always pulls the current build.</p>
   </div>
@@ -153,7 +153,7 @@
         setTimeout(function () { btn.textContent = 'copy the code'; }, 1600);
       };
       var fail = function () {
-        done.textContent = 'copy failed — select the drag button and copy its address';
+        done.textContent = 'copy failed â€” select the drag button and copy its address';
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(ok).catch(fail);
