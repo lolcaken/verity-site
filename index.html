@@ -5,74 +5,40 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Verity — install (A: panel)</title>
 <style>
-  /* DIRECTION A — "panel"
-     Same visual language as the Verity overlay itself: near-black, gold accent,
-     1px borders, pill buttons. The site should feel like part of the tool. */
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --bg:#0b0b0c; --panel:#111112; --panel2:#161617; --line:#2a2a2a; --line2:#1d1d1d;
-    --fg:#f2f2f2; --mid:#b8b8b8; --dim:#7a7a7a; --gold:#e0b64a; --red:#e06c6c;
-    --mono:ui-monospace,'Cascadia Mono',Consolas,monospace;
-  }
-  /* fits a laptop viewport without scrolling: the whole page is short, so
-     everything is tightened rather than hidden */
-  /* centre the whole page in the viewport, not just horizontally: body is a
-     flex column and the wrapper is the single centred child */
-  body{background:var(--bg);color:var(--fg);font:14px/1.5 Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-       -webkit-font-smoothing:antialiased;min-height:100vh;padding:clamp(16px,3vh,36px) 20px;
-       display:flex;align-items:center;justify-content:center}
-  .wrap{width:100%;max-width:900px;margin:auto;display:flex;flex-direction:column;
-        gap:clamp(12px,2.2vh,20px)}
+  /* minimal on purpose: same wording, almost no styling */
+  *{box-sizing:border-box;margin:0}
+  body{background:#0b0b0c;color:#f2f2f2;font:14px/1.6 system-ui,sans-serif;padding:24px 20px}
+  .wrap{max-width:720px;margin:0 auto}
 
-  header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  .mark{font-size:clamp(24px,3.4vh,30px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
-  .mark em{font-style:normal;color:var(--gold)}
-  .tag{color:var(--dim);font-size:13px}
+  header{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}
+  .mark{font-size:22px;font-weight:600}
+  .mark em{font-style:normal;color:#e0b64a}
+  .tag{color:#7a7a7a;font-size:13px}
+  .status{margin-left:auto;font:11px ui-monospace,monospace;color:#b8b8b8}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#e0b64a;margin-right:5px}
 
-  .status{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;margin-left:auto;
-          border:1px solid var(--line2);border-radius:999px;font:11px/1 var(--mono);color:var(--mid)}
-  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(224,182,74,.6)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card,.note{border:1px solid #2a2a2a;border-radius:10px;padding:16px}
+  .note{margin-top:16px}
+  .card h2,.note h3{font-size:15px;font-weight:600;margin-bottom:8px}
+  .note h3{color:#e0b64a}
 
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vh,16px)}
-  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  .card p,.note p,ol li,footer{color:#b8b8b8;font-size:13px}
+  ol{padding-left:18px}
+  ol li{margin:4px 0}
+  code{font:12px ui-monospace,monospace;color:#e0b64a}
 
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
-        padding:clamp(14px,2.2vh,20px);display:flex;flex-direction:column;gap:10px}
-  .card h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
-  .card p{font-size:13px;color:var(--mid);line-height:1.5}
-
-  ol{list-style:none;counter-reset:s;display:grid;gap:7px}
-  ol li{counter-increment:s;position:relative;padding-left:24px;font-size:13px;color:var(--mid)}
-  ol li::before{content:counter(s);position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:5px;
-               background:var(--panel2);border:1px solid var(--line);color:var(--gold);
-               font:10px/15px var(--mono);text-align:center}
-
-  .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;
-       font-size:13px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
-       background:var(--gold);color:#151005;border:1px solid var(--gold);transition:background .12s}
+  .btn{display:inline-block;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:600;
+       text-decoration:none;cursor:pointer;background:#e0b64a;color:#151005;border:1px solid #e0b64a}
+  .btn.ghost{background:none;color:#b8b8b8;border-color:#2a2a2a}
   .btn:hover{background:#f0cd6a;border-color:#f0cd6a}
-  .btn.ghost{background:transparent;color:var(--mid);border-color:var(--line)}
-  .btn.ghost:hover{color:var(--fg);border-color:#3a3a3a;background:transparent}
-  .drag{cursor:grab;user-select:none}
 
-  .note{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold);
-        border-radius:12px;padding:clamp(12px,2vh,18px) clamp(14px,2.2vh,20px);display:grid;gap:6px}
-  .note h3{font-size:13.5px;font-weight:600;color:var(--gold)}
-  .note p{font-size:13px;color:var(--mid);line-height:1.5}
-
-  /* extension store links: deliberately quiet, so the gold CTA stays the
-     only thing that looks like a button */
-  .stores{display:flex;flex-wrap:wrap;gap:14px}
-  .stores a{
-    color:var(--dim);font-size:12.5px;text-decoration:none;padding-bottom:1px;
-    border-bottom:1px solid var(--line);transition:color .12s,border-color .12s
-  }
-  .stores a:hover{color:var(--gold);border-color:var(--gold)}
-
-  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:2px}
-  .row .btn{flex:0 0 auto}
-  .row small{color:var(--dim);font-size:12.5px}
-  footer{color:var(--dim);font-size:12.5px}
+  .stores{display:flex;gap:12px;margin:10px 0}
+  .stores a{color:#7a7a7a;font-size:12px}
+  .row{margin-top:12px}
+  small{color:#7a7a7a}
+  footer{margin-top:20px}
 </style>
 </head>
 <body>
